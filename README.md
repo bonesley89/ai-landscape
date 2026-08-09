@@ -8,12 +8,12 @@ Personal notes — not rankings, endorsements, or affiliations.
 
 ## Buckets
 
+- **Model providers** — the brains harnesses call
 - **Terminal agents** — CLI/TUI harnesses
 - **IDE agents** — editors and extensions with agent loops
 - **Cloud agents** — async agents that often return a PR
 - **Personal / always-on agents** — messaging-native assistants (e.g. OpenClaw)
 - **UI & app builders** — design canvases and prompt-to-app tools
-- **Model providers** — the brains harnesses call
 - **Gateways & SDKs** — routers, proxies, and kits for building with models
 - **Image** — text-to-image and generative stills
 - **Video** — text/image-to-video, creative suites, avatar tools

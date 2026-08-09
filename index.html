@@ -478,6 +478,21 @@
   <script>
     const CATEGORIES = [
       {
+        id: "models",
+        title: "Model providers",
+        blurb: "The brains harnesses call. Ordered roughly by developer usage.",
+        products: [
+          { name: "OpenAI (GPT / Codex)", domain: "openai.com", url: "https://openai.com", desc: "General + coding models behind ChatGPT, Codex, lots of IDEs.", pop: "Very high", popDetail: "~81% SO developer usage" },
+          { name: "Anthropic (Claude)", domain: "anthropic.com", url: "https://www.anthropic.com", desc: "Frontier coding/agent models — Claude Code + many third-party harnesses.", pop: "Very high", popDetail: "~43% SO · most admired" },
+          { name: "Google (Gemini)", domain: "gemini.google.com", url: "https://gemini.google.com", desc: "Multimodal models for Antigravity, Gemini CLI, Jules, Stitch.", pop: "High", popDetail: "~35% SO developer usage" },
+          { name: "DeepSeek", domain: "deepseek.com", url: "https://www.deepseek.com", desc: "Strong capability-per-dollar — common BYO in open harnesses.", pop: "High", popDetail: "~23% SO · cost favorite" },
+          { name: "Meta (Llama)", domain: "meta.com", url: "https://www.llama.com", desc: "Open-weight — local / self-hosted setups.", pop: "Solid", popDetail: "~18% SO · open-weight default" },
+          { name: "Mistral", domain: "mistral.ai", url: "https://mistral.ai", desc: "EU open-weight + hosted (Devstral etc.); pairs with Vibe CLI.", pop: "Solid", popDetail: "Strong EU / open niche" },
+          { name: "xAI (Grok)", domain: "x.ai", url: "https://x.ai", desc: "xAI frontier models via API / aggregators.", pop: "Solid", popDetail: "~11% SO developer usage" },
+          { name: "Moonshot (Kimi)", domain: "moonshot.ai", url: "https://www.moonshot.ai", desc: "Long-context Kimi models — Kimi Code CLI and via gateways.", pop: "Rising", popDetail: "Strong in CN / long-context" }
+        ]
+      },
+      {
         id: "terminal",
         title: "Terminal agents",
         blurb: "CLI / TUI harnesses — edit files, run shells, loop in the terminal. Ordered roughly by popularity.",
@@ -540,21 +555,6 @@
           { name: "Claude Design", domain: "claude.com", url: "https://claude.com/product/design", desc: "Anthropic design canvas — prototypes/decks, design-system import, handoff to Claude Code.", pop: "Rising", popDetail: "New · Anthropic distribution" },
           { name: "Stitch (Google)", domain: "google.com", url: "https://stitch.withgoogle.com", desc: "AI design canvas — NL → high-fidelity UI; MCP into Antigravity / AI Studio.", pop: "Rising", popDetail: "Free Google Labs tool" },
           { name: "Galileo AI", domain: "usegalileo.ai", url: "https://www.usegalileo.ai", desc: "Text-to-UI for mocks and product exploration.", pop: "Niche", popDetail: "Smaller than Stitch/v0 peers" }
-        ]
-      },
-      {
-        id: "models",
-        title: "Model providers",
-        blurb: "The brains harnesses call. Ordered roughly by developer usage.",
-        products: [
-          { name: "OpenAI (GPT / Codex)", domain: "openai.com", url: "https://openai.com", desc: "General + coding models behind ChatGPT, Codex, lots of IDEs.", pop: "Very high", popDetail: "~81% SO developer usage" },
-          { name: "Anthropic (Claude)", domain: "anthropic.com", url: "https://www.anthropic.com", desc: "Frontier coding/agent models — Claude Code + many third-party harnesses.", pop: "Very high", popDetail: "~43% SO · most admired" },
-          { name: "Google (Gemini)", domain: "gemini.google.com", url: "https://gemini.google.com", desc: "Multimodal models for Antigravity, Gemini CLI, Jules, Stitch.", pop: "High", popDetail: "~35% SO developer usage" },
-          { name: "DeepSeek", domain: "deepseek.com", url: "https://www.deepseek.com", desc: "Strong capability-per-dollar — common BYO in open harnesses.", pop: "High", popDetail: "~23% SO · cost favorite" },
-          { name: "Meta (Llama)", domain: "meta.com", url: "https://www.llama.com", desc: "Open-weight — local / self-hosted setups.", pop: "Solid", popDetail: "~18% SO · open-weight default" },
-          { name: "Mistral", domain: "mistral.ai", url: "https://mistral.ai", desc: "EU open-weight + hosted (Devstral etc.); pairs with Vibe CLI.", pop: "Solid", popDetail: "Strong EU / open niche" },
-          { name: "xAI (Grok)", domain: "x.ai", url: "https://x.ai", desc: "xAI frontier models via API / aggregators.", pop: "Solid", popDetail: "~11% SO developer usage" },
-          { name: "Moonshot (Kimi)", domain: "moonshot.ai", url: "https://www.moonshot.ai", desc: "Long-context Kimi models — Kimi Code CLI and via gateways.", pop: "Rising", popDetail: "Strong in CN / long-context" }
         ]
       },
       {
