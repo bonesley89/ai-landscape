@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Landscape</title>
+  <meta name="description" content="Personal notes on the AI developer landscape — harnesses, models, gateways, and what each product actually does." />
+  <meta name="author" content="AI Landscape" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AI Landscape" />
+  <meta property="og:description" content="Personal notes on the AI developer landscape — products, categories, and short reminders of what each one does." />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="AI Landscape" />
+  <meta name="twitter:description" content="Personal notes on the AI developer landscape — products, categories, and short reminders of what each one does." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314201c'/%3E%3Cpath d='M6 22c4-8 8-8 12 0s8 8 12 0' fill='none' stroke='%23e85d04' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #14201c;
+      --ink-soft: #3a4a44;
+      --paper: #f3f0e8;
+      --paper-2: #e8e3d6;
+      --line: #c9c2b0;
+      --accent: #e85d04;
+      --accent-2: #1b6b5a;
+      --mist: rgba(20, 32, 28, 0.06);
+      --radius: 4px;
+      --max: 1120px;
+      --font-display: "Bricolage Grotesque", Georgia, serif;
+      --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+    .topo {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(1000px 600px at 8% -5%, rgba(232, 93, 4, 0.1), transparent 55%),
+        radial-gradient(800px 500px at 92% 5%, rgba(27, 107, 90, 0.1), transparent 50%),
+        linear-gradient(180deg, #f7f4ec 0%, var(--paper) 45%, #efe9db 100%);
+    }
+
+    .topo::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 90c20-40 40-40 60 0s40 40 60 0 40-40 60 0' fill='none' stroke='%2314201c' stroke-opacity='0.07' stroke-width='1'/%3E%3Cpath d='M0 50c25-30 45-30 70 0s45 30 70 0 45-30 70 0' fill='none' stroke='%2314201c' stroke-opacity='0.05' stroke-width='1'/%3E%3Cpath d='M-10 130c25-28 50-28 75 0s50 28 75 0 50-28 75 0' fill='none' stroke='%2314201c' stroke-opacity='0.05' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      animation: drift 48s linear infinite;
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(-90px, -45px, 0); }
+    }
+
+    .wrap {
+      width: min(100% - 2.5rem, var(--max));
+      margin-inline: auto;
+    }
+
+    .page-head {
+      padding: 2.25rem 0 1.5rem;
+      animation: rise 0.55s ease-out both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-head h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin: 0 0 0.65rem;
+    }
+
+    .page-head h1 span { color: var(--accent); }
+
+    .page-head p {
+      margin: 0;
+      max-width: 54ch;
+      color: var(--ink-soft);
+      font-size: 1rem;
+    }
+
+    .notes {
+      padding: 1.25rem 0 2rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .notes-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--accent-2);
+      margin: 0 0 0.85rem;
+    }
+
+    .notes-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.65rem;
+      max-width: 62ch;
+    }
+
+    .notes-list li {
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .notes-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 0.4rem;
+      height: 0.4rem;
+      background: var(--accent);
+      border-radius: 1px;
+    }
+
+    .notes-list strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .map {
+      padding: 0 0 3rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 0 0 1.75rem;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      padding: 1rem 0 0.85rem;
+      background: color-mix(in srgb, var(--paper) 88%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+    }
+
+    .toolbar.is-stuck { border-bottom-color: var(--line); }
+
+    .search {
+      width: 100%;
+      max-width: 420px;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.55);
+      outline: none;
+    }
+
+    .search:focus { border-color: var(--ink); }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.1rem;
+    }
+
+    .filters button {
+      position: relative;
+      padding: 0.2rem 0;
+      color: var(--ink-soft);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .filters button[aria-pressed="true"] {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .filters button[aria-pressed="true"]::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -0.15rem;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .count {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .category {
+      margin-bottom: 2.75rem;
+      scroll-margin-top: 5.5rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .category.is-in { opacity: 1; transform: none; }
+    .category[hidden] { display: none; }
+
+    .category-head {
+      display: grid;
+      gap: 0.3rem;
+      margin-bottom: 0.95rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .category-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.8vw, 1.7rem);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .category-head p {
+      margin: 0;
+      color: var(--ink-soft);
+      max-width: 60ch;
+      font-size: 0.95rem;
+    }
+
+    .product-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .table-head {
+      display: none;
+      gap: 1rem;
+      padding: 0 0 0.55rem;
+      margin-bottom: 0.15rem;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--accent-2);
+    }
+
+    @media (min-width: 860px) {
+      .table-head {
+        display: grid;
+        grid-template-columns: minmax(12rem, 16rem) 1fr minmax(10rem, 13rem);
+      }
+    }
+
+    .product {
+      display: grid;
+      gap: 0.35rem 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+      grid-template-columns: 1fr;
+      align-items: start;
+      transition: background 0.2s ease;
+    }
+
+    .product:hover { background: var(--mist); }
+
+    @media (min-width: 860px) {
+      .product {
+        grid-template-columns: minmax(12rem, 16rem) 1fr minmax(10rem, 13rem);
+        align-items: center;
+      }
+    }
+
+    .product[hidden] { display: none; }
+
+    .product-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 0;
+    }
+
+    .product-icon {
+      width: 1.55rem;
+      height: 1.55rem;
+      border-radius: 4px;
+      background: #fff;
+      border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .product-icon.is-fallback {
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ink);
+      background: color-mix(in srgb, var(--paper-2) 80%, #fff);
+    }
+
+    .product-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .product-name a {
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .product-name a:hover {
+      color: var(--accent-2);
+      border-bottom-color: color-mix(in srgb, var(--accent-2) 45%, transparent);
+    }
+
+    .product-desc {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+    }
+
+    .product-pop {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--ink);
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .product-pop span {
+      display: block;
+      color: var(--ink-soft);
+      font-weight: 400;
+      font-size: 0.82rem;
+      margin-top: 0.15rem;
+    }
+
+    @media (max-width: 859px) {
+      .product-pop {
+        padding-left: calc(1.55rem + 0.65rem);
+        color: var(--ink-soft);
+        font-size: 0.85rem;
+      }
+      .product-pop::before { content: "Popularity: "; font-weight: 600; color: var(--ink); }
+      .product-pop span { display: inline; margin-top: 0; }
+      .product-pop span::before { content: " · "; }
+    }
+
+    .empty {
+      display: none;
+      padding: 1.5rem 0;
+      color: var(--ink-soft);
+    }
+
+    .empty.is-visible { display: block; }
+
+    footer {
+      padding: 2rem 0 3rem;
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    footer .wrap {
+      display: grid;
+      gap: 0.45rem;
+      max-width: 62ch;
+    }
+
+    footer strong { color: var(--ink); font-weight: 600; }
+
+    .nav-jump {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 8;
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: var(--paper);
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .nav-jump.is-on {
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topo" aria-hidden="true"></div>
+
+  <header class="page-head wrap">
+    <h1>AI <span>Landscape</span></h1>
+    <p>My running notes on AI tools for developers — what exists, how I bucket it, and a short reminder of what each product does. Kept here so I don’t have to reconstruct it from memory.</p>
+  </header>
+
+  <div class="notes wrap">
+    <h2 class="notes-label">How I see it</h2>
+    <ul class="notes-list">
+      <li><strong>Harnesses</strong> = the loops that edit files / run shells / ship PRs (Claude Code, Cursor, Codex, OpenClaw…).</li>
+      <li><strong>Models</strong> = the brains (Claude, Gemini, DeepSeek, Kimi…). Same model shows up in lots of tools.</li>
+      <li><strong>Glue</strong> = routers and SDKs (OpenRouter, LiteLLM, AI SDK) — access or build with models, not agents themselves.</li>
+      <li><strong>MCP</strong> = how harnesses talk to tools and services (files, browsers, design systems, APIs) — protocol glue, not a product.</li>
+      <li>Names collide a lot: Claude ≠ Claude Code ≠ Claude Design; Codex is CLI + cloud; Kimi is model + CLI.</li>
+    </ul>
+  </div>
+
+  <main class="map wrap" id="map">
+    <div class="toolbar" id="toolbar">
+      <input class="search" id="search" type="search" placeholder="Search…" autocomplete="off" />
+      <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+      <p class="count" id="count" aria-live="polite"></p>
+    </div>
+
+    <div id="categories"></div>
+    <p class="empty" id="empty">Nothing matched.</p>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><strong>Last updated:</strong> Aug 2026</p>
+      <p>Personal notes — not rankings, endorsements, or affiliations. Names and marks belong to their owners.</p>
+    </div>
+  </footer>
+
+  <a class="nav-jump" id="topJump" href="#" aria-label="Back to top">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 12V4M4 8l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
+  <script>
+    const CATEGORIES = [
+      {
+        id: "terminal",
+        title: "Terminal agents",
+        blurb: "CLI / TUI harnesses — edit files, run shells, loop in the terminal. Ordered roughly by popularity.",
+        products: [
+          { name: "Claude Code", domain: "claude.com", url: "https://claude.com/product/claude-code", desc: "Anthropic’s terminal agent — hooks, subagents, plan mode; strongest on Claude.", pop: "Very high", popDetail: "Most-loved in surveys" },
+          { name: "Codex CLI", domain: "openai.com", url: "https://openai.com/codex/", desc: "OpenAI’s terminal coding agent; also hands off to cloud/PR workflows.", pop: "Very high", popDetail: "Part of 7M+ Codex users" },
+          { name: "OpenCode", domain: "opencode.ai", url: "https://opencode.ai", desc: "Open-source, model-agnostic TUI — any provider, including local / self-host.", pop: "High", popDetail: "~195k★ on GitHub" },
+          { name: "Gemini CLI", domain: "geminicli.com", url: "https://geminicli.com", desc: "Google’s terminal coding agent — Gemini-first.", pop: "High", popDetail: "~106k★ on GitHub" },
+          { name: "Pi", domain: "pi.dev", url: "https://pi.dev", desc: "Minimal terminal harness — small core, extend with skills/packages.", pop: "Rising", popDetail: "~86k★ on GitHub" },
+          { name: "Aider", domain: "aider.chat", url: "https://aider.chat", desc: "Git-native terminal pair-programmer — commit-aware, BYO model.", pop: "Solid", popDetail: "~48k★ on GitHub" },
+          { name: "Kimi Code CLI", domain: "kimi.com", url: "https://www.kimi.com/code", desc: "Moonshot’s terminal agent for Kimi; subagents + ACP for IDE drive.", pop: "Niche", popDetail: "~6k★ on GitHub" },
+          { name: "Mistral Vibe CLI", domain: "mistral.ai", url: "https://mistral.ai", desc: "Mistral’s open CLI around Devstral/Mistral + ACP.", pop: "Niche", popDetail: "~5k★ on GitHub" }
+        ]
+      },
+      {
+        id: "ide",
+        title: "IDE agents",
+        blurb: "Editors / extensions with chat, inline edit, and multi-file agent mode. Ordered roughly by popularity.",
+        products: [
+          { name: "GitHub Copilot", domain: "github.com", url: "https://github.com/features/copilot", desc: "Completions, chat, and cloud agents that can turn issues into PRs.", pop: "Very high", popDetail: "~20M users · distribution king" },
+          { name: "Cursor", domain: "cursor.com", url: "https://cursor.com", desc: "AI-native VS Code fork — tab, Composer, agents.", pop: "Very high", popDetail: "$2B+ ARR · AI-IDE leader" },
+          { name: "Windsurf", domain: "windsurf.com", url: "https://windsurf.com", desc: "Cascade agent IDE — in-editor agent + parallel worktree-style flows.", pop: "High", popDetail: "Large indie + enterprise base" },
+          { name: "Antigravity", domain: "google.com", url: "https://antigravity.google", desc: "Google’s agent-first IDE — Gemini, MCP, pairs with Stitch.", pop: "Rising", popDetail: "Fast growth on free tier" },
+          { name: "Cline / Roo Code", domain: "cline.bot", url: "https://cline.bot", desc: "Open VS Code agent extensions — transparent tool use, BYO keys.", pop: "Solid", popDetail: "Strong open-extension installs" },
+          { name: "Zed", domain: "zed.dev", url: "https://zed.dev", desc: "Fast editor with ACP so external agents can drive the session.", pop: "Solid", popDetail: "~88k★ on GitHub" },
+          { name: "Continue", domain: "continue.dev", url: "https://continue.dev", desc: "Open IDE extension for custom assistants and local models.", pop: "Solid", popDetail: "Broad IDE coverage" },
+          { name: "Amazon Q Developer", domain: "aws.amazon.com", url: "https://aws.amazon.com/q/developer/", desc: "AWS IDE coding assistant — being wound down in favor of Kiro (new signups blocked May 2026; IDE plugins EOS 30 Apr 2027).", pop: "Deprecating", popDetail: "Migrate to Kiro by Apr 2027" },
+          { name: "Kiro", domain: "kiro.dev", url: "https://kiro.dev", desc: "AWS agentic IDE — spec first (requirements → design → tasks), then code. Successor path for Q Developer.", pop: "Emerging", popDetail: "AWS-aligned · Q’s replacement" }
+        ]
+      },
+      {
+        id: "cloud",
+        title: "Cloud agents",
+        blurb: "Async sandbox agents — often return a PR. Ordered roughly by popularity.",
+        products: [
+          { name: "Codex Cloud", domain: "openai.com", url: "https://openai.com/codex/", desc: "OpenAI background coding agent — assign work, get a PR.", pop: "Very high", popDetail: "7M+ weekly Codex users" },
+          { name: "Copilot coding agent", domain: "github.com", url: "https://github.com/features/copilot", desc: "GitHub cloud agent — implements issues, opens PRs via Actions.", pop: "High", popDetail: "Rides Copilot distribution" },
+          { name: "Devin", domain: "cognition.ai", url: "https://cognition.ai", desc: "Cognition’s autonomous engineer — longer-horizon cloud VM work.", pop: "High profile", popDetail: "Enterprise seats · big valuation" },
+          { name: "Jules", domain: "google.com", url: "https://jules.google", desc: "Google async GitHub agent — issue→PR in a sandbox.", pop: "Emerging", popDetail: "Smaller mindshare than peers" }
+        ]
+      },
+      {
+        id: "personal",
+        title: "Personal / always-on agents",
+        blurb: "Messaging-native assistants on your machine.",
+        products: [
+          { name: "OpenClaw", domain: "openclaw.ai", url: "https://openclaw.ai", desc: "Self-hosted personal agent gateway — WhatsApp/Telegram/Discord/etc. Viral lobster.", pop: "Viral", popDetail: "Hundreds of thousands of ★" }
+        ]
+      },
+      {
+        id: "ui",
+        title: "UI & app builders",
+        blurb: "Design canvases and prompt-to-app tools — UI mocks through full-stack scaffolds. Ordered roughly by popularity.",
+        products: [
+          { name: "Figma Make / Figma AI", domain: "figma.com", url: "https://www.figma.com", desc: "AI inside Figma for generating and iterating UI.", pop: "Very high", popDetail: "Rides Figma’s install base" },
+          { name: "Lovable", domain: "lovable.dev", url: "https://lovable.dev", desc: "Prompt → full app scaffold when you need a demo fast.", pop: "Very high", popDetail: "~$400M ARR reported" },
+          { name: "Replit Agent", domain: "replit.com", url: "https://replit.com/ai", desc: "Browser workspace agent — prompt to full-stack app with built-in run/deploy; vibe-coding mainstay.", pop: "Very high", popDetail: "Huge builder / education base" },
+          { name: "Bolt.new", domain: "bolt.new", url: "https://bolt.new", desc: "StackBlitz in-browser app builder — WebContainers, prompt → run → deploy.", pop: "High", popDetail: "~$40M ARR · huge traffic" },
+          { name: "v0 (Vercel)", domain: "v0.dev", url: "https://v0.dev", desc: "Prompt-to-UI for React/Tailwind on the Vercel stack.", pop: "High", popDetail: "Default for many React teams" },
+          { name: "Claude Design", domain: "claude.com", url: "https://claude.com/product/design", desc: "Anthropic design canvas — prototypes/decks, design-system import, handoff to Claude Code.", pop: "Rising", popDetail: "New · Anthropic distribution" },
+          { name: "Stitch (Google)", domain: "google.com", url: "https://stitch.withgoogle.com", desc: "AI design canvas — NL → high-fidelity UI; MCP into Antigravity / AI Studio.", pop: "Rising", popDetail: "Free Google Labs tool" },
+          { name: "Galileo AI", domain: "usegalileo.ai", url: "https://www.usegalileo.ai", desc: "Text-to-UI for mocks and product exploration.", pop: "Niche", popDetail: "Smaller than Stitch/v0 peers" }
+        ]
+      },
+      {
+        id: "models",
+        title: "Model providers",
+        blurb: "The brains harnesses call. Ordered roughly by developer usage.",
+        products: [
+          { name: "OpenAI (GPT / Codex)", domain: "openai.com", url: "https://openai.com", desc: "General + coding models behind ChatGPT, Codex, lots of IDEs.", pop: "Very high", popDetail: "~81% SO developer usage" },
+          { name: "Anthropic (Claude)", domain: "anthropic.com", url: "https://www.anthropic.com", desc: "Frontier coding/agent models — Claude Code + many third-party harnesses.", pop: "Very high", popDetail: "~43% SO · most admired" },
+          { name: "Google (Gemini)", domain: "gemini.google.com", url: "https://gemini.google.com", desc: "Multimodal models for Antigravity, Gemini CLI, Jules, Stitch.", pop: "High", popDetail: "~35% SO developer usage" },
+          { name: "DeepSeek", domain: "deepseek.com", url: "https://www.deepseek.com", desc: "Strong capability-per-dollar — common BYO in open harnesses.", pop: "High", popDetail: "~23% SO · cost favorite" },
+          { name: "Meta (Llama)", domain: "meta.com", url: "https://www.llama.com", desc: "Open-weight — local / self-hosted setups.", pop: "Solid", popDetail: "~18% SO · open-weight default" },
+          { name: "Mistral", domain: "mistral.ai", url: "https://mistral.ai", desc: "EU open-weight + hosted (Devstral etc.); pairs with Vibe CLI.", pop: "Solid", popDetail: "Strong EU / open niche" },
+          { name: "xAI (Grok)", domain: "x.ai", url: "https://x.ai", desc: "xAI frontier models via API / aggregators.", pop: "Solid", popDetail: "~11% SO developer usage" },
+          { name: "Moonshot (Kimi)", domain: "moonshot.ai", url: "https://www.moonshot.ai", desc: "Long-context Kimi models — Kimi Code CLI and via gateways.", pop: "Rising", popDetail: "Strong in CN / long-context" }
+        ]
+      },
+      {
+        id: "gateways",
+        title: "Gateways & SDKs",
+        blurb: "Route models or build AI into your own apps. Ordered roughly by popularity.",
+        products: [
+          { name: "OpenRouter", domain: "openrouter.ai", url: "https://openrouter.ai", desc: "One API across many providers — unified billing + fallbacks.", pop: "Very high", popDetail: "Default managed multi-model API" },
+          { name: "Vercel AI SDK", domain: "vercel.com", url: "https://sdk.vercel.ai", desc: "TS toolkit for chat/streaming/tools in your apps — framework, not a marketplace.", pop: "Very high", popDetail: "Default in Next.js AI apps" },
+          { name: "LiteLLM", domain: "litellm.ai", url: "https://www.litellm.ai", desc: "Open proxy — 100+ providers as OpenAI-compatible API.", pop: "High", popDetail: "Self-host gateway standard" },
+          { name: "Together / Fireworks / Groq", domain: "together.ai", url: "https://www.together.ai", desc: "Inference platforms for fast/cheap hosted open models.", pop: "Solid", popDetail: "Common open-model hosts" }
+        ]
+      },
+      {
+        id: "image",
+        title: "Image",
+        blurb: "Text-to-image and generative stills — art direction, photoreal, text-in-image, open weights. Ordered roughly by popularity.",
+        products: [
+          { name: "Midjourney", domain: "midjourney.com", url: "https://www.midjourney.com", desc: "Image gen that lived on Discord for years — stylized / cinematic look.", pop: "Very high", popDetail: "Cultural default for art direction" },
+          { name: "GPT Image (OpenAI)", domain: "openai.com", url: "https://openai.com", desc: "ChatGPT / API image gen + edit — strong prompt adherence and everyday use.", pop: "Very high", popDetail: "Default via ChatGPT distribution" },
+          { name: "Flux", domain: "bfl.ai", url: "https://bfl.ai", desc: "Black Forest Labs — photoreal / open-weight friendly; common in APIs and self-host.", pop: "High", popDetail: "Dev / open-weight favorite" },
+          { name: "Ideogram", domain: "ideogram.ai", url: "https://ideogram.ai", desc: "Best-in-class text rendering inside images — logos, posters, type-heavy work.", pop: "High", popDetail: "Text-in-image specialist" },
+          { name: "Adobe Firefly", domain: "adobe.com", url: "https://www.adobe.com/products/firefly.html", desc: "Commercially safer gen inside Creative Cloud — indemnification angle for brands.", pop: "High", popDetail: "Enterprise / CC default" },
+          { name: "Leonardo.ai", domain: "leonardo.ai", url: "https://leonardo.ai", desc: "Web generative studio — images, canvas edits, custom models.", pop: "Solid", popDetail: "Web-first production studio" },
+          { name: "Stable Diffusion", domain: "stability.ai", url: "https://stability.ai", desc: "Open-weight family (SDXL / SD3.x) — local, fine-tunes, ComfyUI ecosystem.", pop: "Solid", popDetail: "Hackable open baseline" }
+        ]
+      },
+      {
+        id: "video",
+        title: "Video",
+        blurb: "Text/image-to-video, creative suites, and avatar/talking-head tools. Ordered roughly by popularity.",
+        products: [
+          { name: "Runway", domain: "runwayml.com", url: "https://runwayml.com", desc: "Pro creative suite — gen + edit (motion brush, inpainting, camera control).", pop: "Very high", popDetail: "Industry default for creators" },
+          { name: "Sora (OpenAI)", domain: "openai.com", url: "https://openai.com/sora", desc: "OpenAI’s video model — photorealism / physics; usually via ChatGPT plans.", pop: "Very high", popDetail: "Brand-defining T2V" },
+          { name: "Kling", domain: "kling.ai", url: "https://kling.ai", desc: "Strong motion / physics; generous free credits; good for shorts and storyboards.", pop: "High", popDetail: "Value + free-tier favorite" },
+          { name: "Veo (Google)", domain: "google.com", url: "https://deepmind.google/models/veo/", desc: "Google’s video model — cinematic quality, often with native audio; Gemini / Vertex path.", pop: "High", popDetail: "Google-stack distribution" },
+          { name: "HeyGen", domain: "heygen.com", url: "https://www.heygen.com", desc: "Avatar / talking-head videos — lip-sync, translation, sales and explainer workflows.", pop: "High", popDetail: "Business avatar leader" },
+          { name: "Luma Dream Machine", domain: "lumalabs.ai", url: "https://lumalabs.ai/dream-machine", desc: "Fast image-to-video and cinematic camera paths; quick iteration.", pop: "Solid", popDetail: "Speed-focused I2V" },
+          { name: "Pika", domain: "pika.art", url: "https://pika.art", desc: "Short-form / social clips with stylized effects; beginner-friendly.", pop: "Solid", popDetail: "Social + effects niche" },
+          { name: "Synthesia", domain: "synthesia.io", url: "https://www.synthesia.io", desc: "Enterprise avatar videos for training and multilingual spokespeople.", pop: "Solid", popDetail: "Enterprise training default" }
+        ]
+      }
+    ];
+
+    const VALID_CATS = new Set(["all", ...CATEGORIES.map((c) => c.id)]);
+    const filtersEl = document.getElementById("filters");
+    const categoriesEl = document.getElementById("categories");
+    const searchEl = document.getElementById("search");
+    const countEl = document.getElementById("count");
+    const emptyEl = document.getElementById("empty");
+    const toolbar = document.getElementById("toolbar");
+    const topJump = document.getElementById("topJump");
+
+    let activeFilter = "all";
+
+    function readFilterFromUrl() {
+      const cat = new URLSearchParams(window.location.search).get("cat");
+      return cat && VALID_CATS.has(cat) ? cat : "all";
+    }
+
+    function writeFilterToUrl(cat) {
+      const url = new URL(window.location.href);
+      if (!cat || cat === "all") url.searchParams.delete("cat");
+      else url.searchParams.set("cat", cat);
+      history.replaceState(null, "", url);
+    }
+
+    function iconCandidates(domain) {
+      return [
+        `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`,
+        `https://icons.duckduckgo.com/ip3/${encodeURIComponent(domain)}.ico`
+      ];
+    }
+
+    function renderFilters() {
+      const buttons = [
+        { id: "all", label: "All" },
+        ...CATEGORIES.map((c) => ({ id: c.id, label: c.title }))
+      ];
+      filtersEl.innerHTML = buttons.map((b) => `
+        <button type="button" data-filter="${b.id}" aria-pressed="${b.id === activeFilter}">${b.label}</button>
+      `).join("");
+    }
+
+    function renderCategories() {
+      categoriesEl.innerHTML = CATEGORIES.map((cat) => `
+        <article class="category" id="cat-${cat.id}" data-category="${cat.id}">
+          <div class="category-head">
+            <h2>${cat.title}</h2>
+            <p>${cat.blurb}</p>
+          </div>
+          <div class="table-head" aria-hidden="true">
+            <span>Product</span>
+            <span>Notes</span>
+            <span>Popularity</span>
+          </div>
+          <ul class="product-list">
+            ${cat.products.map((p) => {
+              const href = p.url || `https://${p.domain}`;
+              const icons = iconCandidates(p.domain);
+              return `
+              <li class="product" data-name="${p.name.toLowerCase()}" data-desc="${p.desc.toLowerCase()}" data-pop="${(p.pop + " " + p.popDetail).toLowerCase()}">
+                <div class="product-brand">
+                  <img class="product-icon" src="${icons[0]}" alt="" width="24" height="24" loading="lazy" data-fallback="${p.name.charAt(0)}" data-icons='${JSON.stringify(icons)}' data-icon-i="0" />
+                  <h3 class="product-name"><a href="${href}" target="_blank" rel="noopener noreferrer">${p.name}</a></h3>
+                </div>
+                <p class="product-desc">${p.desc}</p>
+                <p class="product-pop">${p.pop}<span>${p.popDetail}</span></p>
+              </li>`;
+            }).join("")}
+          </ul>
+        </article>
+      `).join("");
+
+      categoriesEl.querySelectorAll(".product-icon").forEach((img) => {
+        img.addEventListener("error", () => {
+          const icons = JSON.parse(img.dataset.icons || "[]");
+          let i = Number(img.dataset.iconI || 0) + 1;
+          if (i < icons.length) {
+            img.dataset.iconI = String(i);
+            img.src = icons[i];
+            return;
+          }
+          const letter = img.dataset.fallback || "?";
+          const fallback = document.createElement("span");
+          fallback.className = "product-icon is-fallback";
+          fallback.textContent = letter;
+          fallback.setAttribute("aria-hidden", "true");
+          img.replaceWith(fallback);
+        });
+      });
+    }
+
+    function applyView() {
+      const q = searchEl.value.trim().toLowerCase();
+      let visibleProducts = 0;
+
+      document.querySelectorAll(".category").forEach((cat) => {
+        const catId = cat.dataset.category;
+        const catAllowed = activeFilter === "all" || activeFilter === catId;
+        let catHasVisible = false;
+
+        cat.querySelectorAll(".product").forEach((product) => {
+          const hay = `${product.dataset.name} ${product.dataset.desc} ${product.dataset.pop}`;
+          const matchesSearch = !q || hay.includes(q);
+          const show = catAllowed && matchesSearch;
+          product.hidden = !show;
+          if (show) {
+            catHasVisible = true;
+            visibleProducts += 1;
+          }
+        });
+
+        cat.hidden = !catHasVisible;
+      });
+
+      emptyEl.classList.toggle("is-visible", visibleProducts === 0);
+      countEl.textContent = `${visibleProducts} shown`;
+    }
+
+    function setFilter(cat, { syncUrl = true } = {}) {
+      activeFilter = VALID_CATS.has(cat) ? cat : "all";
+      filtersEl.querySelectorAll("button").forEach((b) => {
+        b.setAttribute("aria-pressed", String(b.dataset.filter === activeFilter));
+      });
+      if (syncUrl) writeFilterToUrl(activeFilter);
+      applyView();
+    }
+
+    filtersEl.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-filter]");
+      if (!btn) return;
+      setFilter(btn.dataset.filter);
+    });
+
+    searchEl.addEventListener("input", applyView);
+
+    window.addEventListener("popstate", () => {
+      setFilter(readFilterFromUrl(), { syncUrl: false });
+    });
+
+    activeFilter = readFilterFromUrl();
+    renderFilters();
+    renderCategories();
+    applyView();
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("is-in");
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".category").forEach((el) => io.observe(el));
+
+    const stickObserver = new IntersectionObserver(([entry]) => {
+      toolbar.classList.toggle("is-stuck", !entry.isIntersecting);
+    }, { rootMargin: "-1px 0px 0px 0px", threshold: 1 });
+
+    const sentinel = document.createElement("div");
+    toolbar.before(sentinel);
+    stickObserver.observe(sentinel);
+
+    window.addEventListener("scroll", () => {
+      topJump.classList.toggle("is-on", window.scrollY > 500);
+    }, { passive: true });
+
+    topJump.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
