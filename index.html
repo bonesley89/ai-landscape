@@ -13,11 +13,48 @@
   <meta name="twitter:title" content="AI Landscape" />
   <meta name="twitter:description" content="Personal notes on the AI developer landscape — products, categories, and short reminders of what each one does." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314201c'/%3E%3Cpath d='M6 22c4-8 8-8 12 0s8 8 12 0' fill='none' stroke='%23e85d04' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("ai-landscape-theme");
+        if (t !== "light" && t !== "dark") t = "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
-    :root {
+    /* Dark default — favicon ink + orange ridge */
+    :root,
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #e6ebe7;
+      --ink-soft: #9aaba3;
+      --paper: #14201c;
+      --paper-2: #1c2c26;
+      --line: #2c3d36;
+      --accent: #e85d04;
+      --accent-2: #f0a06a;
+      --mist: rgba(232, 93, 4, 0.08);
+      --surface: rgba(28, 44, 38, 0.85);
+      --icon-bg: #1c2c26;
+      --topo-a: rgba(232, 93, 4, 0.14);
+      --topo-b: rgba(240, 160, 106, 0.06);
+      --topo-stroke: 230, 235, 231;
+      --jump-bg: #e85d04;
+      --jump-fg: #14201c;
+      --radius: 4px;
+      --max: 1120px;
+      --font-display: "Bricolage Grotesque", Georgia, serif;
+      --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+    }
+
+    html[data-theme="light"] {
+      color-scheme: light;
       --ink: #14201c;
       --ink-soft: #3a4a44;
       --paper: #f3f0e8;
@@ -26,10 +63,13 @@
       --accent: #e85d04;
       --accent-2: #1b6b5a;
       --mist: rgba(20, 32, 28, 0.06);
-      --radius: 4px;
-      --max: 1120px;
-      --font-display: "Bricolage Grotesque", Georgia, serif;
-      --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+      --surface: rgba(255, 255, 255, 0.55);
+      --icon-bg: #fff;
+      --topo-a: rgba(232, 93, 4, 0.1);
+      --topo-b: rgba(27, 107, 90, 0.1);
+      --topo-stroke: 20, 32, 28;
+      --jump-bg: #14201c;
+      --jump-fg: #f3f0e8;
     }
 
     * { box-sizing: border-box; }
@@ -42,6 +82,7 @@
       font-size: 1.05rem;
       line-height: 1.55;
       overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     a { color: inherit; }
@@ -53,18 +94,28 @@
       z-index: -1;
       pointer-events: none;
       background:
-        radial-gradient(1000px 600px at 8% -5%, rgba(232, 93, 4, 0.1), transparent 55%),
-        radial-gradient(800px 500px at 92% 5%, rgba(27, 107, 90, 0.1), transparent 50%),
-        linear-gradient(180deg, #f7f4ec 0%, var(--paper) 45%, #efe9db 100%);
+        radial-gradient(1000px 600px at 8% -5%, var(--topo-a), transparent 55%),
+        radial-gradient(800px 500px at 92% 5%, var(--topo-b), transparent 50%),
+        linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 45%, var(--paper) 100%);
     }
 
     .topo::before {
       content: "";
       position: absolute;
       inset: -20%;
-      background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 90c20-40 40-40 60 0s40 40 60 0 40-40 60 0' fill='none' stroke='%2314201c' stroke-opacity='0.07' stroke-width='1'/%3E%3Cpath d='M0 50c25-30 45-30 70 0s45 30 70 0 45-30 70 0' fill='none' stroke='%2314201c' stroke-opacity='0.05' stroke-width='1'/%3E%3Cpath d='M-10 130c25-28 50-28 75 0s50 28 75 0 50-28 75 0' fill='none' stroke='%2314201c' stroke-opacity='0.05' stroke-width='1'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 90c20-40 40-40 60 0s40 40 60 0 40-40 60 0' fill='none' stroke='rgb(var(--topo-stroke))' stroke-opacity='0.07' stroke-width='1'/%3E%3Cpath d='M0 50c25-30 45-30 70 0s45 30 70 0 45-30 70 0' fill='none' stroke='rgb(var(--topo-stroke))' stroke-opacity='0.05' stroke-width='1'/%3E%3Cpath d='M-10 130c25-28 50-28 75 0s50 28 75 0 50-28 75 0' fill='none' stroke='rgb(var(--topo-stroke))' stroke-opacity='0.05' stroke-width='1'/%3E%3C/svg%3E");
       background-size: 180px 180px;
       animation: drift 48s linear infinite;
+      opacity: 0.9;
+    }
+
+    /* SVG data-URI can't use CSS vars — theme-specific overlays */
+    html[data-theme="dark"] .topo::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 90c20-40 40-40 60 0s40 40 60 0 40-40 60 0' fill='none' stroke='%23e6ebe7' stroke-opacity='0.07' stroke-width='1'/%3E%3Cpath d='M0 50c25-30 45-30 70 0s45 30 70 0 45-30 70 0' fill='none' stroke='%23e6ebe7' stroke-opacity='0.05' stroke-width='1'/%3E%3Cpath d='M-10 130c25-28 50-28 75 0s50 28 75 0 50-28 75 0' fill='none' stroke='%23e6ebe7' stroke-opacity='0.05' stroke-width='1'/%3E%3C/svg%3E");
+    }
+
+    html[data-theme="light"] .topo::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 90c20-40 40-40 60 0s40 40 60 0 40-40 60 0' fill='none' stroke='%2314201c' stroke-opacity='0.07' stroke-width='1'/%3E%3Cpath d='M0 50c25-30 45-30 70 0s45 30 70 0 45-30 70 0' fill='none' stroke='%2314201c' stroke-opacity='0.05' stroke-width='1'/%3E%3Cpath d='M-10 130c25-28 50-28 75 0s50 28 75 0 50-28 75 0' fill='none' stroke='%2314201c' stroke-opacity='0.05' stroke-width='1'/%3E%3C/svg%3E");
     }
 
     @keyframes drift {
@@ -80,6 +131,17 @@
     .page-head {
       padding: 2.25rem 0 1.5rem;
       animation: rise 0.55s ease-out both;
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+    }
+
+    .page-head-copy { grid-column: 1 / -1; }
+
+    @media (min-width: 640px) {
+      .page-head-copy { grid-column: 1; }
+      .theme-toggle { grid-row: 1; grid-column: 2; }
     }
 
     @keyframes rise {
@@ -104,6 +166,28 @@
       color: var(--ink-soft);
       font-size: 1rem;
     }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--ink);
+      transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .theme-toggle svg { width: 1.15rem; height: 1.15rem; }
+    html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+    html[data-theme="light"] .theme-toggle .icon-sun { display: none; }
 
     .notes {
       padding: 1.25rem 0 2rem;
@@ -161,16 +245,8 @@
       flex-direction: column;
       gap: 0.85rem;
       margin: 0 0 1.75rem;
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      padding: 1rem 0 0.85rem;
-      background: color-mix(in srgb, var(--paper) 88%, transparent);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid transparent;
+      padding-top: 1rem;
     }
-
-    .toolbar.is-stuck { border-bottom-color: var(--line); }
 
     .search {
       width: 100%;
@@ -178,11 +254,13 @@
       padding: 0.75rem 0.9rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.55);
+      background: var(--surface);
+      color: var(--ink);
       outline: none;
     }
 
-    .search:focus { border-color: var(--ink); }
+    .search::placeholder { color: var(--ink-soft); }
+    .search:focus { border-color: var(--accent); }
 
     .filters {
       display: flex;
@@ -310,7 +388,7 @@
       width: 1.55rem;
       height: 1.55rem;
       border-radius: 4px;
-      background: #fff;
+      background: var(--icon-bg);
       border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
       object-fit: contain;
       flex-shrink: 0;
@@ -323,7 +401,7 @@
       font-size: 0.72rem;
       font-weight: 700;
       color: var(--ink);
-      background: color-mix(in srgb, var(--paper-2) 80%, #fff);
+      background: var(--paper-2);
     }
 
     .product-name {
@@ -342,8 +420,8 @@
     }
 
     .product-name a:hover {
-      color: var(--accent-2);
-      border-bottom-color: color-mix(in srgb, var(--accent-2) 45%, transparent);
+      color: var(--accent);
+      border-bottom-color: color-mix(in srgb, var(--accent) 45%, transparent);
     }
 
     .product-desc {
@@ -410,8 +488,8 @@
       width: 2.6rem;
       height: 2.6rem;
       border-radius: var(--radius);
-      background: var(--ink);
-      color: var(--paper);
+      background: var(--jump-bg);
+      color: var(--jump-fg);
       display: grid;
       place-items: center;
       opacity: 0;
@@ -438,8 +516,19 @@
   <div class="topo" aria-hidden="true"></div>
 
   <header class="page-head wrap">
-    <h1>AI <span>Landscape</span></h1>
-    <p>My running notes on AI tools for developers — what exists, how I bucket it, and a short reminder of what each product does. Kept here so I don’t have to reconstruct it from memory.</p>
+    <div class="page-head-copy">
+      <h1>AI <span>Landscape</span></h1>
+      <p>My running notes on AI tools for developers — what exists, how I bucket it, and a short reminder of what each product does. Kept here so I don’t have to reconstruct it from memory.</p>
+    </div>
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to light mode" title="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 7 7 0 1 0 20 14.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
+    </button>
   </header>
 
   <div class="notes wrap">
@@ -605,7 +694,6 @@
     const searchEl = document.getElementById("search");
     const countEl = document.getElementById("count");
     const emptyEl = document.getElementById("empty");
-    const toolbar = document.getElementById("toolbar");
     const topJump = document.getElementById("topJump");
 
     let activeFilter = "all";
@@ -749,14 +837,6 @@
 
     document.querySelectorAll(".category").forEach((el) => io.observe(el));
 
-    const stickObserver = new IntersectionObserver(([entry]) => {
-      toolbar.classList.toggle("is-stuck", !entry.isIntersecting);
-    }, { rootMargin: "-1px 0px 0px 0px", threshold: 1 });
-
-    const sentinel = document.createElement("div");
-    toolbar.before(sentinel);
-    stickObserver.observe(sentinel);
-
     window.addEventListener("scroll", () => {
       topJump.classList.toggle("is-on", window.scrollY > 500);
     }, { passive: true });
@@ -765,6 +845,28 @@
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
+
+    const themeToggle = document.getElementById("themeToggle");
+
+    function currentTheme() {
+      return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    }
+
+    function applyTheme(theme) {
+      const next = theme === "light" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("ai-landscape-theme", next); } catch (e) {}
+      themeToggle.setAttribute(
+        "aria-label",
+        next === "dark" ? "Switch to light mode" : "Switch to dark mode"
+      );
+    }
+
+    themeToggle.addEventListener("click", () => {
+      applyTheme(currentTheme() === "dark" ? "light" : "dark");
+    });
+
+    applyTheme(currentTheme());
   </script>
 </body>
 </html>
