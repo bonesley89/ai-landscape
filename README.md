@@ -1,4 +1,4 @@
-# AI Landscape
+# AI Landscape for Developers
 
 Personal running notes on the AI tools developers run into — what exists, how I bucket it, and a one-line reminder of what each product does.
 
