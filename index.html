@@ -578,6 +578,7 @@
           { name: "Meta (Llama)", domain: "meta.com", url: "https://www.llama.com", desc: "Open-weight — local / self-hosted setups.", pop: "Solid", popDetail: "~18% SO · open-weight default" },
           { name: "Mistral", domain: "mistral.ai", url: "https://mistral.ai", desc: "EU open-weight + hosted (Devstral etc.); pairs with Vibe CLI.", pop: "Solid", popDetail: "Strong EU / open niche" },
           { name: "xAI (Grok)", domain: "x.ai", url: "https://x.ai", desc: "xAI frontier models via API / aggregators.", pop: "Solid", popDetail: "~11% SO developer usage" },
+          { name: "Alibaba (Qwen)", domain: "qwen.ai", url: "https://chat.qwen.ai", desc: "Open-weight + hosted Qwen family — strong coding models; pairs with Qwen Code.", pop: "Solid", popDetail: "~5% SO · big open-weight base" },
           { name: "Moonshot (Kimi)", domain: "moonshot.ai", url: "https://www.moonshot.ai", desc: "Long-context Kimi models — Kimi Code CLI and via gateways.", pop: "Rising", popDetail: "Strong in CN / long-context" }
         ]
       },
@@ -588,11 +589,13 @@
         products: [
           { name: "Claude Code", domain: "claude.com", url: "https://claude.com/product/claude-code", desc: "Anthropic’s terminal agent — hooks, subagents, plan mode; strongest on Claude.", pop: "Very high", popDetail: "Most-loved in surveys" },
           { name: "Codex CLI", domain: "openai.com", url: "https://openai.com/codex/", desc: "OpenAI’s terminal coding agent; also hands off to cloud/PR workflows.", pop: "Very high", popDetail: "Part of 7M+ Codex users" },
+          { name: "Hermes Agent", domain: "nousresearch.com", url: "https://hermes-agent.nousresearch.com", desc: "Nous Research self-improving terminal agent — skills/memory loop, TUI, plus Telegram/Discord gateway.", pop: "Very high", popDetail: "~229k★ on GitHub" },
           { name: "OpenCode", domain: "opencode.ai", url: "https://opencode.ai", desc: "Open-source, model-agnostic TUI — any provider, including local / self-host.", pop: "High", popDetail: "~195k★ on GitHub" },
           { name: "Gemini CLI", domain: "geminicli.com", url: "https://geminicli.com", desc: "Google’s terminal coding agent — Gemini-first.", pop: "High", popDetail: "~106k★ on GitHub" },
           { name: "Muse Code", domain: "meta.com", url: "https://developer.meta.com/ai/products/muse-code/", desc: "Meta’s terminal coding agent (beta) — Muse Spark, multi-agent fan-out, interactive + headless/CI.", pop: "Rising", popDetail: "New Meta beta" },
           { name: "Pi", domain: "pi.dev", url: "https://pi.dev", desc: "Minimal terminal harness — small core, extend with skills/packages.", pop: "Rising", popDetail: "~86k★ on GitHub" },
           { name: "Aider", domain: "aider.chat", url: "https://aider.chat", desc: "Git-native terminal pair-programmer — commit-aware, BYO model.", pop: "Solid", popDetail: "~48k★ on GitHub" },
+          { name: "Qwen Code", domain: "qwen.ai", url: "https://github.com/QwenLM/qwen-code", desc: "Alibaba’s open terminal agent — Qwen-first, multi-provider, subagents/MCP, scriptable headless.", pop: "Solid", popDetail: "~27k★ on GitHub" },
           { name: "Kimi Code CLI", domain: "kimi.com", url: "https://www.kimi.com/code", desc: "Moonshot’s terminal agent for Kimi; subagents + ACP for IDE drive.", pop: "Niche", popDetail: "~6k★ on GitHub" },
           { name: "Mistral Vibe CLI", domain: "mistral.ai", url: "https://mistral.ai", desc: "Mistral’s open CLI around Devstral/Mistral + ACP.", pop: "Niche", popDetail: "~5k★ on GitHub" }
         ]
@@ -627,9 +630,11 @@
       {
         id: "personal",
         title: "Personal / always-on agents",
-        blurb: "Messaging-native assistants on your machine.",
+        blurb: "Always-on agents and workspaces — messaging, team rooms, persistent cloud coworkers.",
         products: [
-          { name: "OpenClaw", domain: "openclaw.ai", url: "https://openclaw.ai", desc: "Self-hosted personal agent gateway — WhatsApp/Telegram/Discord/etc. Viral lobster.", pop: "Viral", popDetail: "Hundreds of thousands of ★" }
+          { name: "OpenClaw", domain: "openclaw.ai", url: "https://openclaw.ai", desc: "Self-hosted personal agent gateway — WhatsApp/Telegram/Discord/etc. Viral lobster.", pop: "Viral", popDetail: "Hundreds of thousands of ★" },
+          { name: "Buzz", domain: "buzz.xyz", url: "https://buzz.xyz", desc: "Block’s open-source workspace — humans + agents as channel members; chat, early Git, BYO harness.", pop: "Rising", popDetail: "~26k★ on GitHub" },
+          { name: "Grok Bot", domain: "x.ai", url: "https://x.ai/bot", desc: "xAI/SpaceXAI always-on cloud teammates — own VM, use your apps, routines; beta on SuperGrok / Cursor Ultra.", pop: "Emerging", popDetail: "New · Cursor Ultra / Heavy" }
         ]
       },
       {
