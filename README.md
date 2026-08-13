@@ -1,8 +1,6 @@
-# AI Landscape for Developers
+# AI Landscape
 
-Personal running notes on the AI tools developers run into — what exists, how I bucket it, and a one-line reminder of what each product does.
-
-Kept here so I don’t have to rebuild the map from memory.
+New names show up every week. This is a map of what’s loud in AI now — and what still matters from earlier rounds.
 
 Personal notes — not rankings, endorsements, or affiliations.
 
