@@ -595,7 +595,7 @@
           { name: "Muse Code", domain: "meta.com", url: "https://developer.meta.com/ai/products/muse-code/", desc: "Meta’s terminal coding agent (beta) — Muse Spark, multi-agent fan-out, interactive + headless/CI.", pop: "Rising", popDetail: "New Meta beta" },
           { name: "Grok Build", domain: "x.ai", url: "https://x.ai/cli", desc: "xAI/SpaceXAI terminal coding agent — plan mode, parallel subagents/worktrees, MCP; open-source harness.", pop: "Rising", popDetail: "SuperGrok / X Premium+" },
           { name: "Pi", domain: "pi.dev", url: "https://pi.dev", desc: "Minimal terminal harness — small core, extend with skills/packages.", pop: "Rising", popDetail: "~86k★ on GitHub" },
-          { name: "Aider", domain: "aider.chat", url: "https://aider.chat", desc: "Git-native terminal pair-programmer — commit-aware, BYO model.", pop: "Solid", popDetail: "~48k★ on GitHub" },
+          { name: "Aider", domain: "aider.chat", icon: "https://aider.chat/assets/logo.svg", url: "https://aider.chat", desc: "Git-native terminal pair-programmer — commit-aware, BYO model.", pop: "Solid", popDetail: "~48k★ on GitHub" },
           { name: "Qwen Code", domain: "qwen.ai", url: "https://github.com/QwenLM/qwen-code", desc: "Alibaba’s open terminal agent — Qwen-first, multi-provider, subagents/MCP, scriptable headless.", pop: "Solid", popDetail: "~27k★ on GitHub" },
           { name: "Kimi Code CLI", domain: "kimi.com", url: "https://www.kimi.com/code", desc: "Moonshot’s terminal agent for Kimi; subagents + ACP for IDE drive.", pop: "Niche", popDetail: "~6k★ on GitHub" },
           { name: "Mistral Vibe CLI", domain: "mistral.ai", url: "https://mistral.ai", desc: "Mistral’s open CLI around Devstral/Mistral + ACP.", pop: "Niche", popDetail: "~5k★ on GitHub" }
@@ -635,7 +635,7 @@
         blurb: "Always-on agents and workspaces — messaging, team rooms, persistent cloud coworkers.",
         products: [
           { name: "OpenClaw", domain: "openclaw.ai", url: "https://openclaw.ai", desc: "Self-hosted personal agent gateway — WhatsApp/Telegram/Discord/etc. Viral lobster.", pop: "Viral", popDetail: "Hundreds of thousands of ★" },
-          { name: "Buzz", domain: "buzz.xyz", url: "https://buzz.xyz", desc: "Block’s open-source workspace — humans + agents as channel members; chat, early Git, BYO harness.", pop: "Rising", popDetail: "~26k★ on GitHub" },
+          { name: "Buzz", domain: "buzz.xyz", icon: "https://buzz.xyz/sites/buzz/icon.svg", url: "https://buzz.xyz", desc: "Block’s open-source workspace — humans + agents as channel members; chat, early Git, BYO harness.", pop: "Rising", popDetail: "~26k★ on GitHub" },
           { name: "Grok Bot", domain: "x.ai", url: "https://x.ai/bot", desc: "xAI/SpaceXAI always-on cloud teammates — own VM, use your apps, routines; beta on SuperGrok / Cursor Ultra.", pop: "Emerging", popDetail: "New · Cursor Ultra / Heavy" }
         ]
       },
@@ -719,11 +719,14 @@
       history.replaceState(null, "", url);
     }
 
-    function iconCandidates(domain) {
-      return [
-        `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`,
-        `https://icons.duckduckgo.com/ip3/${encodeURIComponent(domain)}.ico`
-      ];
+    function iconCandidates(domain, direct) {
+      const list = [];
+      // Some domains return 404-as-valid-image from the favicon services,
+      // so give products an optional `icon` field with a direct source.
+      if (direct) list.push(direct);
+      list.push(`https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=64`);
+      list.push(`https://icons.duckduckgo.com/ip3/${encodeURIComponent(domain)}.ico`);
+      return list;
     }
 
     function renderFilters() {
@@ -751,7 +754,7 @@
           <ul class="product-list">
             ${cat.products.map((p) => {
               const href = p.url || `https://${p.domain}`;
-              const icons = iconCandidates(p.domain);
+              const icons = iconCandidates(p.domain, p.icon);
               return `
               <li class="product" data-name="${p.name.toLowerCase()}" data-desc="${p.desc.toLowerCase()}" data-pop="${(p.pop + " " + p.popDetail).toLowerCase()}">
                 <div class="product-brand">
